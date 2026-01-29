@@ -8,8 +8,26 @@ Twine Data Game
   "format": "Harlowe",
   "format-version": "3.3.9",
   "start": "Game Introduction",
+  "tag-colors": {
+    "startup": "yellow",
+    "header": "blue",
+    "QTE": "red",
+    "footer": "purple"
+  },
   "zoom": 1
 }
+
+
+:: Footer [footer] {"position":"100,300","size":"100,100"}
+(if: (passage:)'s tags contains "QTE")[
+    (set: $time to $duration)
+    Time remaining (live: 100)[$time]
+  (meter: 0, $time, $startTime, "Time")
+  DISPLAY BAR HERE
+  <div class="bar-container">
+    <div class="bar-fill" style="width: <<print ($health / $maxHealth * 100)>>%"></div>
+  </div>
+]
 
 
 :: Game Introduction {"position":"350,300","size":"100,100"}
@@ -17,8 +35,8 @@ Twine Data Game
 Start
 
 
-:: QTE Example {"position":"350,150","size":"100,100"}
-(set: $time to 3 * 1000)
+:: QTE Example [QTE] {"position":"350,150","size":"100,100"}
+(set: $duration to 3 * 1000)
 
 Choose Option 3!
 
@@ -26,9 +44,6 @@ Choose Option 3!
 [[2->QTE Fail]]
 [[3->QTE Success]]
 [[4->QTE Fail]]
-
-Time remaining (live: 100)[$time]
-DISPLAY BAR HERE
 
 (live: 100)[(set: $time to $time - 100)(if: $time <= 0)[(goto: "QTE Fail")]]
 
@@ -46,4 +61,15 @@ You did it!
 
 
 :: StoryStylesheet [stylesheet]
-tw-sidebar {display: none;}
+tw-sidebar {display: none;} /* Hides sidebar which has undo button */
+
+bar-container {
+    width: 100%;
+    background-color: #ddd;
+    border: 1px solid #000;
+}
+.bar-fill {
+    height: 20px;
+    background-color: #4CAF50;
+    width: 50%;
+}
