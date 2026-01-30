@@ -108,14 +108,3 @@ Choose Option $correct!
 
 :: StoryStylesheet [stylesheet]
 tw-sidebar {display: none;} /* Hides sidebar which has undo button */
-
-bar-container {
-    width: 100%;
-    background-color: #ddd;
-    border: 1px solid #000;
-}
-.bar-fill {
-    height: 20px;
-    background-color: #4CAF50;
-    width: 50%;
-}
