@@ -36,7 +36,7 @@ You shove the branches aside—
 
 Someone stumbles backward.
 
-It’s Student C.
+It’s $CharacterCName.
 
 Eyes wide.
 Just as startled as you are.
@@ -100,7 +100,7 @@ B turns slowly.
 
 Their eyes flick from face to face.
 
-Then they notice Student C.
+Then they notice $CharacterCName.
 
 (if: $CHitByRock is true)[
   Their gaze lingers.
@@ -172,7 +172,7 @@ And close.
 :: Deer Discovery {"position":"450,3075","size":"100,100"}
 As you step into the clearing, you stop.
 
-Student B is standing alone.
+$CharacterBName is standing alone.
 
 In front of them —
 a deer.
@@ -210,7 +210,7 @@ No one speaks for a moment.
 
 (set: $duration to 1.5 * 1000)
 (set: $questions to 3)
-(set: $correct to 3)
+(set: $correct to (a: 2, 3))
 
 (set: $Q1 to "Option 1")
 (set: $Q2 to "Option 2")
@@ -279,22 +279,23 @@ The forest doesn’t sleep.
 {(if: (passage:)'s tags contains "QTE")[
     (set: $duration to 2 * 1000)
     (set: $rand to (random: 1, 4))
-    (set: $correct to $rand)
+    (set: $correct to (a: $rand))
     (set: $questions to 4)
     (set: $Q1 to "1")
     (set: $Q2 to "2")
     (set: $Q3 to "3")
     (set: $Q4 to "4")
     (set: $QTEs to $QTEs + 1)
+    (set: $Result to 0)
 ]}
 
 
 :: Next Decision {"position":"450,3575","size":"100,100"}
-
+(goto-url:"https://docs.google.com/forms/d/e/1FAIpQLSftCTcrfnGxeGE3RddEssW_m88-GxHbDJ7ArPRFTCXwqhomVw/viewform?usp=publish-editor")
 
 
 :: Night C Wake {"position":"512.5,2075","size":"100,100"}
-You are Student C.
+You are $CharacterCName.
 
 Something wakes you up.
 
@@ -307,7 +308,7 @@ The forest feels wrong.
 
 
 :: POV A {"position":"512.5,1575","size":"100,100"}
-You are Student A.
+You are $CharacterAName.
 
 You unpack the cooking gear.
 
@@ -326,7 +327,7 @@ You unpack the cooking gear.
 
 
 :: POV B {"position":"575,1325","size":"100,100"}
-You are Student B.
+You are $CharacterBName.
 
 You check the supplies.
 The water is low.
@@ -338,7 +339,7 @@ There’s a river nearby.
 
 
 :: POV C {"position":"512.5,1700","size":"100,100"}
-You are Student C.
+You are $CharacterCName.
 
 You sit nearby, watching the fire.
 
@@ -356,14 +357,14 @@ The woods feel closer than before.
 [[Continue->Group Evening]]
 
 
-:: QTE Deer [Ending] {"position":"575,825","size":"100,100"}
+:: QTE Deer [QTE] {"position":"575,825","size":"100,100"}
 {
 (set: $success to "QTE Deer Success")
 (set: $fail to "QTE Deer Fail")
 
 (set: $duration to 1.5 * 1000)
 (set: $questions to 2)
-(set: $correct to 1)
+(set: $correct to (a: 1, 2))
 
 (set: $Q1 to "Brake hard!")
 (set: $Q2 to "Swerve!")
@@ -384,18 +385,26 @@ What do you do?!
 
 
 :: QTE Deer Fail {"position":"650,950","size":"100,100"}
-The deer, seeing you barrel towards it, panics and begins to run again.
-You manage to narrowly miss it.
+At the last second, the deer turns its head—
+sees you coming—
+and bolts off the road barely getting clipped by the car.
 
+The forest swallows it whole.
 [[Keep driving->Driving AfterQTE]]
 
 
 :: QTE Deer Success {"position":"500,950","size":"100,100"}
+{
+(if: $Result is 1)[
 The tires screech.
 
-At the last second, the deer turns its head—
-sees you coming—
-and bolts off the road before the car reaches it.
+You stop inches away from the deer as it saunters off the road.
+] (else-if: $Result is 2)[
+The deer begins moving as you swerve to the side.
+
+You miss the deer by inches while barreling down the road.
+]
+}
 
 The forest swallows it whole.
 [[Keep driving->Driving AfterQTE]]
@@ -414,26 +423,30 @@ You did it!
 
 
 :: Question Layout {"position":"300,200","size":"100,100"}
-(if: $questions >= 1)[(link: $Q1) [(if: 1 is $correct)
+(if: $questions >= 1)[(link: $Q1) [(if: $correct contains 1)
 	[(set: $QTESuccess to $QTESuccess + 1)
+    (set: $Result to 1)
     (go-to: $success)]
 (else:)
 	[(goto: $fail)]]]
 
-(if: $questions >= 2)[(link: $Q2) [(if: 2 is $correct)
+(if: $questions >= 2)[(link: $Q2) [(if: $correct contains 2)
 	[(set: $QTESuccess to $QTESuccess + 1)
+    (set: $Result to 2)
     (go-to: $success)]
 (else:)
 	[(goto: $fail)]]]
 
-(if: $questions >= 3)[(link: $Q3) [(if: 3 is $correct)
+(if: $questions >= 3)[(link: $Q3) [(if: $correct contains 3)
 	[(set: $QTESuccess to $QTESuccess + 1)
+    (set: $Result to 3)
     (go-to: $success)]
 (else:)
 	[(goto: $fail)]]]
 
-(if: $questions >= 4)[(link: $Q4) [(if: 4 is $correct)
+(if: $questions >= 4)[(link: $Q4) [(if: $correct contains 4)
 	[(set: $QTESuccess to $QTESuccess + 1)
+    (set: $Result to 4)
     (go-to: $success)]
 (else:)
 	[(goto: $fail)]]]
@@ -477,11 +490,14 @@ Welcome.
 (set: $Character1Alive to true)
 (set: $Character2Alive to true)
 (set: $Character3Alive to true)
+(set: $CharacterAName to "Tyler")
+(set: $CharacterBName to "Chad")
+(set: $CharacterCName to "Brad")
 }
 
 
 :: —>A Wake {"position":"512.5,2450","size":"100,100"}
-You are Student A.
+You are $CharacterAName.
 
 A sudden noise snaps you awake.
 
