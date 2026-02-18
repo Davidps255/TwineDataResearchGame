@@ -139,7 +139,6 @@ Then something breathes behind you.
 ENDING: Alone Death
 
 
-
 :: Brad Alone Escape {"position":"225,4225","size":"100,100"}
 You run until your lungs burn.
 
@@ -159,7 +158,6 @@ You don't look back.
 ENDING: Alone Escape
 
 
-
 :: Brad Call Tyler {"position":"850,3700","size":"100,100"}
 (set: $TylerDanger to $TylerDanger + 1)
 
@@ -170,7 +168,6 @@ No response.
 Just wind.
 
 [[Back->Brad Hub]]
-
 
 
 :: Brad Confront Theory {"position":"1125,3325","size":"100,100"}
@@ -194,7 +191,6 @@ Brad looks toward Chad’s tent.
 [[Wait and watch him instead->Camp Hub]]
 
 
-
 :: Brad Follow {"position":"975,3700","size":"100,100"}
 (if: $TylerDanger >= 4)[
   [[Run deeper into the woods->Return to Tyler Late]]
@@ -202,7 +198,6 @@ Brad looks toward Chad’s tent.
 (else:)[
   [[Run deeper into the woods->Return to Tyler On Time]]
 ]
-
 
 
 :: Brad Hub {"position":"725,3325","size":"100,100"}
@@ -222,7 +217,6 @@ What do you do?
 [[Follow their tracks->Brad Follow]]
 
 
-
 :: Brad Medkit {"position":"800,3450","size":"100,100"}
 (set: $TylerDanger to $TylerDanger + 1)
 
@@ -231,7 +225,6 @@ You dig through the supplies.
 You find the medkit.
 
 [[Back->Brad Hub]]
-
 
 
 :: Brad Search 1 {"position":"250,3450","size":"100,100"}
@@ -247,7 +240,6 @@ No answer.
 [[Keep searching->Brad Search 2]]
 
 
-
 :: Brad Search 2 {"position":"250,3575","size":"100,100"}
 You spot a faint flashlight flicker deeper in the woods.
 
@@ -256,8 +248,6 @@ It moves.
 Then stops.
 
 [[Run toward it->Return to Tyler Danger]]
-
-
 
 
 :: Brad Stay 1 {"position":"375,3450","size":"100,100"}
@@ -271,7 +261,6 @@ Your stomach tightens.
 [[After a moment… go look anyway->Brad Search 2]]
 
 
-
 :: Brad Wait {"position":"375,3575","size":"100,100"}
 You listen.
 
@@ -282,7 +271,6 @@ Then—
 A distant noise.
 
 [[Go after them->Brad Search 1]]
-
 
 
 :: C Enter Bush {"position":"512.5,2325","size":"100,100"}
@@ -321,7 +309,6 @@ The clearing feels wrong.
 [[What do you do?->Brad Hub]]
 
 
-
 :: Camp Hub {"position":"675,3200","size":"100,100"}
 (set: $ActionsTaken to $ActionsTaken + 1)
 
@@ -332,7 +319,6 @@ Who do you focus on?
 
 [[Control Tyler->Tyler Hub]]
 [[Control Brad->Brad Hub]]
-
 
 
 :: Camp Setup {"position":"575,1200","size":"100,100"}
@@ -358,7 +344,6 @@ But he still avoids looking at the deer for long.
 [[Return->Camp Hub]]
 
 
-
 :: Chad Leads Tyler {"position":"500,3700","size":"100,100"}
 You follow Chad into the woods.
 
@@ -369,7 +354,6 @@ The flashlight beam sweeps the trees.
 Chad walks a little ahead.
 
 [[Continue->CUT to Brad]]
-
 
 
 :: Chad Press {"position":"500,3575","size":"100,100"}
@@ -383,7 +367,6 @@ Chad exhales.
 He turns and starts walking.
 
 [[Follow him->Chad Leads Tyler]]
-
 
 
 :: Check Deer {"position":"675,3450","size":"100,100"}
@@ -407,7 +390,6 @@ Too warm.
 [[Step back->Camp Hub]]
 
 
-
 :: Check Deer (Brad) {"position":"725,3700","size":"100,100"}
 (set: $TylerDanger to $TylerDanger + 1)
 
@@ -416,7 +398,6 @@ The wounds look worse in the dark.
 Too deep.
 
 [[Back->Brad Hub]]
-
 
 
 :: Confront Chad Early {"position":"1125,3450","size":"100,100"}
@@ -435,7 +416,6 @@ Only disappointment.
 The forest behind him shifts.
 
 [[Continue->Reveal Variant]]
-
 
 
 :: Deer Details {"position":"675,2950","size":"100,100"}
@@ -494,7 +474,7 @@ No one speaks for a moment.
 ]
 (if: (passage:)'s tags contains "Ending")[
 <script>
-window.sendDataToGoogle(" + (str: $QTEs) + ", " + (str: $QTESuccess) + ")
+window.sendDataToGoogle($QTEs)
 </script>
 ]}
 
@@ -521,7 +501,7 @@ The group settles around the fire.
 [[Turn in for the night->Group Sleep]]
 
 
-:: Group Reaction [Ending] {"position":"675,3075","size":"100,100"}
+:: Group Reaction {"position":"675,3075","size":"100,100"}
 No one wants to say it out loud.
 
 The forest feels tighter now.
@@ -531,7 +511,6 @@ Staying doesn’t feel safe.
 But neither does moving in the dark.
 
 [[What now?->Camp Hub]]
-
 
 
 :: Group Sleep {"position":"512.5,1950","size":"100,100"}
@@ -559,7 +538,6 @@ The forest doesn’t sleep.
 Chad steps out of the trees.
 
 His movements jerk unnaturally
-
 
 
 :: Night C Wake {"position":"512.5,2075","size":"100,100"}
@@ -703,12 +681,24 @@ You failed the QTE
 [[Return->Game Introduction]]
 
 
-:: QTE HERE {"position":"250,3825","size":"100,100"}
-(QTE placeholder)
+:: QTE HERE [QTE] {"position":"250,3825","size":"100,100"}
+{
+(set: $duration to 1.5 * 1000)
+(set: $questions to 2)
 
-[[TEMP: succeed->Tyler QTE Success]]
-[[TEMP: fail->Tyler QTE Fail]]
+(set: $success to "Tyler QTE Success")
+(set: $fail to "Tyler QTE Fail")
+(set: $Paths to (a: $fail, $success, $fail))
+}
+You approach the bushes slowly.
 
+Something is moving inside.
+Breathing.
+
+You can’t see clearly.
+
+
+(display: "Question Layout")
 
 
 :: QTE Success {"position":"700,100","size":"100,100"}
@@ -761,7 +751,6 @@ The flashlight spins into the leaves.
 [[QTE HERE]]
 
 
-
 :: Return to Tyler Late {"position":"600,3825","size":"100,100"}
 You are Tyler.
 
@@ -774,7 +763,6 @@ Chad pulls you to your feet.
 “Don’t,” he says quietly.
 
 [[Meet his eyes->Tyler Confrontation]]
-
 
 
 :: Return to Tyler On Time {"position":"500,3825","size":"100,100"}
@@ -791,7 +779,6 @@ His grip is tighter than it should be.
 [[Look at him->Tyler Confrontation]]
 
 
-
 :: Reunion With Brad {"position":"175,4100","size":"100,100"}
 You burst through the trees.
 
@@ -806,7 +793,6 @@ Branches snap.
 Heavy. Fast.
 
 [[Run toward the car->Monster Reveal]]
-
 
 
 :: Reveal Variant {"position":"1125,3575","size":"100,100"}
@@ -832,7 +818,6 @@ Heavy. Fast.
 
   His shadow stretches wrong.
 ]
-
 
 
 :: Start {"position":"575,575","size":"100,100"}
@@ -902,7 +887,6 @@ Still stained red.
 [[Return->Camp Hub]]
 
 
-
 :: Tyler Confrontation {"position":"550,3950","size":"100,100"}
 Chad’s face is unreadable in the dark.
 
@@ -917,7 +901,6 @@ Too steady.
 Something shifts behind him.
 
 [[QTE HERE]]
-
 
 
 :: Tyler Deer Closer {"position":"750,3575","size":"100,100"}
@@ -943,7 +926,6 @@ You hear something shift in the trees.
 [[Stand up slowly->Camp Hub]]
 
 
-
 :: Tyler Hub {"position":"600,3325","size":"100,100"}
 You are (print: $CharacterAName).
 
@@ -952,7 +934,6 @@ What do you do?
 [[Talk to Chad->Talk Chad]]
 [[Examine the deer->Check Deer]]
 [[Return->Camp Hub]]
-
 
 
 :: Tyler QTE Fail {"position":"300,3975","size":"100,100"}
@@ -973,7 +954,6 @@ then nothing.
 [[—>Brad After Tyler Death]]
 
 
-
 :: Tyler QTE Success {"position":"175,3975","size":"100,100"}
 (set: $TylerAlive to true)
 
@@ -986,7 +966,6 @@ Behind you—movement.
 Fast.
 
 [[Run toward camp->Reunion With Brad]]
-
 
 
 :: —>A Wake {"position":"725,2075","size":"100,100"}
@@ -1014,19 +993,17 @@ The trees feel closer than before.
 [[Freeze and listen->Brad Alone Death]]
 
 
-
 :: StoryScript [script]
 // Paste your Google Web App URL here
 const googleSheetURL = "https://script.google.com/macros/s/AKfycbzw-nc1BSpvEyPdF_7iXbx7cGNhEgZMjUsslOVoJH_n6vdSCkFJcRIawf8PjkhFheXQow/exec";
 
 // Define a global function to send data
-window.sendDataToGoogle = function(QTEs, QTESuccess) {
+window.sendDataToGoogle = function(QTEs) {
     
     // Create the data object matching the variables in your Google Script
     var dataToSend = {
         game: "Until Dusk",
-        QTEs: QTEs,
-        QTESuccess: QTESuccess
+        QTEs: QTEs
     };
 
     fetch(googleSheetURL, {
