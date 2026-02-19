@@ -63,7 +63,7 @@ Then something breathes behind you.
 
 ENDING: Alone Death
 
-(set: $Character2Alive to false)
+(set: $BradAlive to false)
 
 
 :: Brad Alone Escape [Ending] {"position":"225,4225","size":"100,100"}
@@ -118,7 +118,7 @@ Brad looks toward Chad’s tent.
 [[Wait and watch him instead->Camp Hub]]
 
 
-:: Brad Enter Bush {"position":"512.5,2325","size":"100,100"}
+:: Brad Enter Bush {"position":"500,2325","size":"100,100"}
 You push aside the branches and step in.
 
 The smell is sharp.
@@ -128,7 +128,7 @@ Something crunches under your foot—
 
 Before you can react—
 
-[[—>Tyler Wake]]
+[[Continue->Tyler Wake]]
 
 
 :: Brad Follow {"position":"975,3700","size":"100,100"}
@@ -474,7 +474,10 @@ No one speaks for a moment.
     (float-box: "=X=", "==Y")[(meter: bind $time, $duration, "X", white)]
 ]
 (if: (passage:)'s tags contains "Ending")[
-<script>window.sendDataToGoogle($QTEs, $Character1Alive, $Character2Alive, $Character3Alive, $Results)</script>
+<script>window.sendDataToGoogle($QTEs, $TylerAlive, $BradAlive, $ChadMonster, $Results)</script>
+
+
+(link: "Restart")[(set: $Reset to true)(goto: "Start")]
 ]}
 
 
@@ -537,6 +540,16 @@ The forest doesn’t sleep.
     (set: $QTEs to $QTEs + 1)
     (set: $Result to 5)
     (set: $LastPassageQTE to true)
+]
+
+(if: $Reset is true)[
+(set: $Reset to false)
+(set: $QTEs to 0)
+(set: $Results to (a:))
+(set: $CharacterAName to "Tyler")
+(set: $CharacterBName to "Chad")
+(set: $CharacterCName to "Brad")
+(set: $LastPassageQTE to false)
 ]}
 
 
@@ -807,17 +820,7 @@ Welcome.
 
 
 :: Startup [startup] {"position":"100,100","size":"100,100"}
-{
-(set: $QTEs to 0)
-(set: $Results to (a:))
-(set: $Character1Alive to true)
-(set: $Character2Alive to true)
-(set: $Character3Alive to true)
-(set: $CharacterAName to "Tyler")
-(set: $CharacterBName to "Chad")
-(set: $CharacterCName to "Brad")
-(set: $LastPassageQTE to false)
-}
+{(set: $Reset to true)}
 
 
 :: Talk Chad {"position":"550,3450","size":"100,100"}
@@ -970,7 +973,6 @@ then nothing.
 [[Continue->Brad After Tyler Death]]
 
 
-
 :: Tyler QTE Success {"position":"175,3975","size":"100,100"}
 (set: $TylerAlive to true)
 
@@ -998,7 +1000,7 @@ Someone collapses inside the bushes.
 [[Rush forward->After Encounter]]
 
 
-:: —>Tyler Wake {"position":"725,2075","size":"100,100"}
+:: Tyler Wake {"position":"725,2075","size":"100,100"}
 You are $CharacterAName.
 
 A sudden noise snaps you awake.
