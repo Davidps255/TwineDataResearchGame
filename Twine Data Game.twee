@@ -20,52 +20,6 @@ Twine Data Game
 }
 
 
-:: A Investigate [QTE] {"position":"512.5,2575","size":"100,100"}
-{
-(set: $duration to 3 * 1000)
-(set: $questions to 2)
-
-(set: $Q1 to "Push the bushes aside")
-(set: $Q2 to "Grab a rock and throw it")
-(set: $Paths to (a: "A Push Bushes", "A Push Bushes", "A Throw Rock"))
-}
-You approach the bushes slowly.
-
-Something is moving inside.
-Breathing.
-
-You can’t see clearly.
-
-
-(display: "Question Layout")
-
-
-:: A Push Bushes {"position":"675,2325","size":"100,100"}
-You shove the branches aside—
-
-Someone stumbles backward.
-
-It’s $CharacterCName.
-
-Eyes wide.
-Just as startled as you are.
-
-[[Lower the branches->After Encounter]]
-
-
-:: A Throw Rock {"position":"825,2425","size":"100,100"}
-(set: $CHitByRock to true)
-
-You throw the rock hard.
-
-A shout of pain —
-then silence.
-
-Someone collapses inside the bushes.
-
-[[Rush forward->After Encounter]]
-
-
 :: After Encounter {"position":"675,2450","size":"100,100"}
 The others wake up quickly.
 
@@ -84,49 +38,6 @@ Whatever was in the bushes —
 it wasn’t an animal.
 
 [[Deal with the aftermath->Return to Camp]]
-
-
-:: B Get Water {"position":"512.5,1450","size":"100,100"}
-(set: $HasWater to true)
-
-You head to the river and refill the containers.
-The water is cold and clear.
-
-[[Return to camp->POV A]]
-
-
-:: B Skip Water {"position":"637.5,1450","size":"100,100"}
-(set: $HasWater to false)
-
-You decide it can wait.
-Everyone looks exhausted.
-
-[[Return to camp->POV A]]
-
-
-:: B Turns Around {"position":"675,2825","size":"100,100"}
-B turns slowly.
-
-Their eyes flick from face to face.
-
-Then they notice $CharacterCName.
-
-(if: $CHitByRock is true)[
-  Their gaze lingers.
-  Longer than it should.
-  
-  “What happened to you?” B asks quietly.
-]
-(else:)[
-  “You guys okay?” B says.
-  Their voice sounds normal.
-]
-
-They glance back at the deer.
-
-“No idea how this happened,” B adds.
-
-[[Look at the deer more closely->Deer Details]]
 
 
 :: Brad Alone Death {"position":"350,4225","size":"100,100"}
@@ -191,6 +102,19 @@ Brad looks toward Chad’s tent.
 [[Wait and watch him instead->Camp Hub]]
 
 
+:: Brad Enter Bush {"position":"512.5,2325","size":"100,100"}
+You push aside the branches and step in.
+
+The smell is sharp.
+Metallic.
+
+Something crunches under your foot—
+
+Before you can react—
+
+[[—>Tyler Wake]]
+
+
 :: Brad Follow {"position":"975,3700","size":"100,100"}
 (if: $TylerDanger >= 4)[
   [[Run deeper into the woods->Return to Tyler Late]]
@@ -217,6 +141,19 @@ What do you do?
 [[Follow their tracks->Brad Follow]]
 
 
+:: Brad Investigate {"position":"512.5,2200","size":"100,100"}
+You move quietly away from the tents.
+
+Near the bushes behind camp,
+you see something dark on the leaves.
+
+Blood.
+
+Fresh.
+
+[[Look closer->Brad Enter Bush]]
+
+
 :: Brad Medkit {"position":"800,3450","size":"100,100"}
 (set: $TylerDanger to $TylerDanger + 1)
 
@@ -225,6 +162,25 @@ You dig through the supplies.
 You find the medkit.
 
 [[Back->Brad Hub]]
+
+
+:: Brad POV {"position":"512.5,1700","size":"100,100"}
+You are $CharacterCName.
+
+You sit nearby, watching the fire.
+
+(if: $HasWater is true)[
+  You sip warm water.
+  Your body relaxes a little.
+]
+(else:)[
+  Your throat feels dry.
+  You keep swallowing, hoping it’ll pass.
+]
+
+The woods feel closer than before.
+
+[[Continue->Group Evening]]
 
 
 :: Brad Search 1 {"position":"250,3450","size":"100,100"}
@@ -273,32 +229,6 @@ A distant noise.
 [[Go after them->Brad Search 1]]
 
 
-:: C Enter Bush {"position":"512.5,2325","size":"100,100"}
-You push aside the branches and step in.
-
-The smell is sharp.
-Metallic.
-
-Something crunches under your foot—
-
-Before you can react—
-
-[[—>A Wake]]
-
-
-:: C Investigate {"position":"512.5,2200","size":"100,100"}
-You move quietly away from the tents.
-
-Near the bushes behind camp,
-you see something dark on the leaves.
-
-Blood.
-
-Fresh.
-
-[[Look closer->C Enter Bush]]
-
-
 :: CUT to Brad {"position":"800,3275","size":"100,100"}
 You are Brad.
 
@@ -327,7 +257,7 @@ Sunset.
 Camp is set up.
 Everyone is tired.
 
-[[Continue->POV B]]
+[[Continue->Chad POV]]
 
 
 :: Chad Back Off {"position":"625,3575","size":"100,100"}
@@ -344,6 +274,15 @@ But he still avoids looking at the deer for long.
 [[Return->Camp Hub]]
 
 
+:: Chad Get Water {"position":"512.5,1450","size":"100,100"}
+(set: $HasWater to true)
+
+You head to the river and refill the containers.
+The water is cold and clear.
+
+[[Return to camp->Tyler POV]]
+
+
 :: Chad Leads Tyler {"position":"500,3700","size":"100,100"}
 You follow Chad into the woods.
 
@@ -354,6 +293,18 @@ The flashlight beam sweeps the trees.
 Chad walks a little ahead.
 
 [[Continue->CUT to Brad]]
+
+
+:: Chad POV {"position":"575,1325","size":"100,100"}
+You are $CharacterBName.
+
+You check the supplies.
+The water is low.
+
+There’s a river nearby.
+
+[[Go to the river and refill->Chad Get Water]]
+[[Decide not to go->Chad Skip Water]]
 
 
 :: Chad Press {"position":"500,3575","size":"100,100"}
@@ -367,6 +318,40 @@ Chad exhales.
 He turns and starts walking.
 
 [[Follow him->Chad Leads Tyler]]
+
+
+:: Chad Skip Water {"position":"637.5,1450","size":"100,100"}
+(set: $HasWater to false)
+
+You decide it can wait.
+Everyone looks exhausted.
+
+[[Return to camp->Tyler POV]]
+
+
+:: Chad Turns Around {"position":"675,2825","size":"100,100"}
+$CharacterBName turns slowly.
+
+Their eyes flick from face to face.
+
+Then they notice $CharacterCName.
+
+(if: $CHitByRock is true)[
+  Their gaze lingers.
+  Longer than it should.
+  
+  “What happened to you?” Chad asks quietly.
+]
+(else:)[
+  “You guys okay?” Chad says.
+  Their voice sounds normal.
+]
+
+They glance back at the deer.
+
+“No idea how this happened,” Chad adds.
+
+[[Look at the deer more closely->Deer Details]]
 
 
 :: Check Deer {"position":"675,3450","size":"100,100"}
@@ -448,7 +433,7 @@ Blood stains B’s hands.
 
 They haven’t noticed you yet.
 
-[[Step closer->B Turns Around]]
+[[Step closer->Chad Turns Around]]
 
 
 :: Driving {"position":"575,700","size":"100,100"}
@@ -518,7 +503,7 @@ Eventually, everyone crawls into their tents.
 
 The forest doesn’t sleep.
 
-[[Go to sleep->Night C Wake]]
+[[Go to sleep->Night Brad Wake]]
 
 
 :: Header [header] {"position":"100,200","size":"100,100"}
@@ -540,7 +525,7 @@ Chad steps out of the trees.
 His movements jerk unnaturally
 
 
-:: Night C Wake {"position":"512.5,2075","size":"100,100"}
+:: Night Brad Wake {"position":"512.5,2075","size":"100,100"}
 You are $CharacterCName.
 
 Something wakes you up.
@@ -550,57 +535,7 @@ more like the absence of one.
 
 The forest feels wrong.
 
-[[Get out of the tent->C Investigate]]
-
-
-:: POV A {"position":"512.5,1575","size":"100,100"}
-You are $CharacterAName.
-
-You unpack the cooking gear.
-
-(if: $HasWater is true)[
-  There’s enough water.
-  You get a pot going over the fire.
-  Steam rises.
-]
-(else:)[
-  There’s barely any water.
-  You try to boil what’s left—
-  but it’s not enough.
-]
-
-[[Continue->POV C]]
-
-
-:: POV B {"position":"575,1325","size":"100,100"}
-You are $CharacterBName.
-
-You check the supplies.
-The water is low.
-
-There’s a river nearby.
-
-[[Go to the river and refill->B Get Water]]
-[[Decide not to go->B Skip Water]]
-
-
-:: POV C {"position":"512.5,1700","size":"100,100"}
-You are $CharacterCName.
-
-You sit nearby, watching the fire.
-
-(if: $HasWater is true)[
-  You sip warm water.
-  Your body relaxes a little.
-]
-(else:)[
-  Your throat feels dry.
-  You keep swallowing, hoping it’ll pass.
-]
-
-The woods feel closer than before.
-
-[[Continue->Group Evening]]
+[[Get out of the tent->Brad Investigate]]
 
 
 :: QTE Deer [QTE] {"position":"575,825","size":"100,100"}
@@ -936,6 +871,58 @@ What do you do?
 [[Return->Camp Hub]]
 
 
+:: Tyler Investigate [QTE] {"position":"512.5,2575","size":"100,100"}
+{
+(set: $duration to 3 * 1000)
+(set: $questions to 2)
+
+(set: $Q1 to "Push the bushes aside")
+(set: $Q2 to "Grab a rock and throw it")
+(set: $Paths to (a: "Tyler Push Bushes", "Tyler Push Bushes", "Tyler Throw Rock"))
+}
+You approach the bushes slowly.
+
+Something is moving inside.
+Breathing.
+
+You can’t see clearly.
+
+
+(display: "Question Layout")
+
+
+:: Tyler POV {"position":"512.5,1575","size":"100,100"}
+You are $CharacterAName.
+
+You unpack the cooking gear.
+
+(if: $HasWater is true)[
+  There’s enough water.
+  You get a pot going over the fire.
+  Steam rises.
+]
+(else:)[
+  There’s barely any water.
+  You try to boil what’s left—
+  but it’s not enough.
+]
+
+[[Continue->Brad POV]]
+
+
+:: Tyler Push Bushes {"position":"675,2325","size":"100,100"}
+You shove the branches aside—
+
+Someone stumbles backward.
+
+It’s $CharacterCName.
+
+Eyes wide.
+Just as startled as you are.
+
+[[Lower the branches->After Encounter]]
+
+
 :: Tyler QTE Fail {"position":"300,3975","size":"100,100"}
 (set: $TylerAlive to false)
 
@@ -968,15 +955,17 @@ Fast.
 [[Run toward camp->Reunion With Brad]]
 
 
-:: —>A Wake {"position":"725,2075","size":"100,100"}
-You are $CharacterAName.
+:: Tyler Throw Rock {"position":"825,2425","size":"100,100"}
+(set: $CHitByRock to true)
 
-A sudden noise snaps you awake.
+You throw the rock hard.
 
-From the bushes.
-Too close to camp.
+A shout of pain —
+then silence.
 
-[[Go check it out->A Investigate]]
+Someone collapses inside the bushes.
+
+[[Rush forward->After Encounter]]
 
 
 :: —>Brad After Tyler Death {"position":"300,4100","size":"100,100"}
@@ -991,6 +980,17 @@ The trees feel closer than before.
 
 [[Keep running->Brad Alone Escape]]
 [[Freeze and listen->Brad Alone Death]]
+
+
+:: —>Tyler Wake {"position":"725,2075","size":"100,100"}
+You are $CharacterAName.
+
+A sudden noise snaps you awake.
+
+From the bushes.
+Too close to camp.
+
+[[Go check it out->Tyler Investigate]]
 
 
 :: StoryScript [script]
