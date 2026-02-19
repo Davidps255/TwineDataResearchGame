@@ -40,7 +40,7 @@ it wasn’t an animal.
 [[Deal with the aftermath->Return to Camp]]
 
 
-:: Brad Alone Death {"position":"350,4225","size":"100,100"}
+:: Brad Alone Death [Ending] {"position":"350,4225","size":"100,100"}
 You freeze.
 
 The forest goes silent.
@@ -50,7 +50,7 @@ Then something breathes behind you.
 ENDING: Alone Death
 
 
-:: Brad Alone Escape {"position":"225,4225","size":"100,100"}
+:: Brad Alone Escape [Ending] {"position":"225,4225","size":"100,100"}
 You run until your lungs burn.
 
 You find the car.
@@ -458,9 +458,7 @@ No one speaks for a moment.
     (float-box: "=X=", "==Y")[(meter: bind $time, $duration, "X", white)]
 ]
 (if: (passage:)'s tags contains "Ending")[
-<script>
-window.sendDataToGoogle($QTEs)
-</script>
+<script>window.sendDataToGoogle($QTEs, $Character1Alive, $Character2Alive, $Character3Alive, $Results)</script>
 ]}
 
 
@@ -507,7 +505,13 @@ The forest doesn’t sleep.
 
 
 :: Header [header] {"position":"100,200","size":"100,100"}
-{(if: (passage:)'s tags contains "QTE")[
+{(if: $LastPassageQTE is true)[
+	(set: $LastPassageQTE to false)
+    (print: $Result)
+    (set: $Results to it + (a: $Result))
+]
+
+(if: (passage:)'s tags contains "QTE")[
     (set: $duration to 2 * 1000)
     (set: $questions to 4)
     (set: $Q1 to "1")
@@ -516,10 +520,11 @@ The forest doesn’t sleep.
     (set: $Q4 to "4")
     (set: $QTEs to $QTEs + 1)
     (set: $Result to 5)
+    (set: $LastPassageQTE to true)
 ]}
 
 
-:: Monster Reveal {"position":"50,4225","size":"100,100"}
+:: Monster Reveal [Ending] {"position":"50,4225","size":"100,100"}
 Chad steps out of the trees.
 
 His movements jerk unnaturally
@@ -618,12 +623,16 @@ You failed the QTE
 
 :: QTE HERE [QTE] {"position":"250,3825","size":"100,100"}
 {
-(set: $duration to 1.5 * 1000)
-(set: $questions to 2)
+(set: $duration to 1 * 1000)
+(set: $questions to 4)
 
 (set: $success to "Tyler QTE Success")
 (set: $fail to "Tyler QTE Fail")
-(set: $Paths to (a: $fail, $success, $fail))
+(set: $Paths to (a: $fail, $fail, $fail, $success, $fail))
+(set: $Q1 to "FREEZE")
+(set: $Q2 to "FREEZE")
+(set: $Q3 to "DODGE LEFT")
+(set: $Q4 to "FREEZE")
 }
 You approach the bushes slowly.
 
@@ -631,6 +640,8 @@ Something is moving inside.
 Breathing.
 
 You can’t see clearly.
+
+Suddenly a claw swipes at you from the right.
 
 
 (display: "Question Layout")
@@ -683,7 +694,7 @@ Something slams into your back.
 
 The flashlight spins into the leaves.
 
-[[QTE HERE]]
+[[Wait->QTE HERE]]
 
 
 :: Return to Tyler Late {"position":"600,3825","size":"100,100"}
@@ -756,7 +767,7 @@ Heavy. Fast.
 
 
 :: Start {"position":"575,575","size":"100,100"}
-(set: $HasWater to false)
+{(set: $HasWater to false)
 (set: $CHitByRock to false)
 
 (set: $BradCondition to 0) 
@@ -771,7 +782,7 @@ Heavy. Fast.
 
 (set: $TylerAlive to true)
 (set: $BradAlive to true)
-(set: $ChadMonster to false)
+(set: $ChadMonster to false)}
 
 
 Welcome.
@@ -782,12 +793,14 @@ Welcome.
 :: Startup [startup] {"position":"100,100","size":"100,100"}
 {
 (set: $QTEs to 0)
+(set: $Results to (a:))
 (set: $Character1Alive to true)
 (set: $Character2Alive to true)
 (set: $Character3Alive to true)
 (set: $CharacterAName to "Tyler")
 (set: $CharacterBName to "Chad")
 (set: $CharacterCName to "Brad")
+(set: $LastPassageQTE to false)
 }
 
 
@@ -835,7 +848,7 @@ Too steady.
 
 Something shifts behind him.
 
-[[QTE HERE]]
+[[Wait->QTE HERE]]
 
 
 :: Tyler Deer Closer {"position":"750,3575","size":"100,100"}
@@ -995,16 +1008,22 @@ Too close to camp.
 
 :: StoryScript [script]
 // Paste your Google Web App URL here
-const googleSheetURL = "https://script.google.com/macros/s/AKfycbzw-nc1BSpvEyPdF_7iXbx7cGNhEgZMjUsslOVoJH_n6vdSCkFJcRIawf8PjkhFheXQow/exec";
+const googleSheetURL = "https://script.google.com/macros/s/AKfycbxjKHcS9ksVaemVEYWNG4MzugisC_uVtYzQoXbPko_VLPiHLOn8E2IuJpVGUTzVd6Yzjg/exec";
 
 // Define a global function to send data
-window.sendDataToGoogle = function(QTEs) {
+window.sendDataToGoogle = function(QTEs, char1, char2, char3, results) {
     
     // Create the data object matching the variables in your Google Script
     var dataToSend = {
-        game: "Until Dusk",
-        QTEs: QTEs
+        QTEs: QTEs,
+      	Char1: char1,
+      	Char2: char2,
+      	Char3: char3,
+      	QTE1: results[0],
+        QTE2: results[1],
+  		QTE3: results[2]
     };
+
 
     fetch(googleSheetURL, {
         method: "POST",
