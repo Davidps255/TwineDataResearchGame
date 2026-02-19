@@ -40,6 +40,20 @@ it wasn’t an animal.
 [[Deal with the aftermath->Return to Camp]]
 
 
+:: Brad After Tyler Death {"position":"300,4100","size":"100,100"}
+You are Brad.
+
+Somewhere in the woods,
+a sound cuts off abruptly.
+
+You run.
+
+The trees feel closer than before.
+
+[[Keep running->Brad Alone Escape]]
+[[Freeze and listen->Brad Alone Death]]
+
+
 :: Brad Alone Death [Ending] {"position":"350,4225","size":"100,100"}
 You freeze.
 
@@ -953,7 +967,8 @@ There’s a sharp pain—
 
 then nothing.
 
-[[—>Brad After Tyler Death]]
+[[Continue->Brad After Tyler Death]]
+
 
 
 :: Tyler QTE Success {"position":"175,3975","size":"100,100"}
@@ -981,20 +996,6 @@ then silence.
 Someone collapses inside the bushes.
 
 [[Rush forward->After Encounter]]
-
-
-:: —>Brad After Tyler Death {"position":"300,4100","size":"100,100"}
-You are Brad.
-
-Somewhere in the woods,
-a sound cuts off abruptly.
-
-You run.
-
-The trees feel closer than before.
-
-[[Keep running->Brad Alone Escape]]
-[[Freeze and listen->Brad Alone Death]]
 
 
 :: —>Tyler Wake {"position":"725,2075","size":"100,100"}
