@@ -49,6 +49,8 @@ Then something breathes behind you.
 
 ENDING: Alone Death
 
+(set: $Character2Alive to false)
+
 
 :: Brad Alone Escape [Ending] {"position":"225,4225","size":"100,100"}
 You run until your lungs burn.
@@ -741,7 +743,7 @@ Heavy. Fast.
 [[Run toward the car->Monster Reveal]]
 
 
-:: Reveal Variant {"position":"1125,3575","size":"100,100"}
+:: Reveal Variant [Ending] {"position":"1125,3575","size":"100,100"}
 (if: $ClueCount >= 4)[
   The trees explode with movement.
 
